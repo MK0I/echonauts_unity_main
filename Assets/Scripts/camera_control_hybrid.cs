@@ -62,7 +62,7 @@ public class camera_control_hybrid : MonoBehaviour
         isAiming = false;
     }
 
-    void Update() // Loop
+    public void LateUpdate() // Loop
     {
         UpdateAimTarget();
         UpdateFollowTarget();
@@ -75,7 +75,12 @@ public class camera_control_hybrid : MonoBehaviour
         Vector3 world = cam.ScreenToWorldPoint(mouse);
         world.z = 0f;
 
-        aimTarget.position = world;
+        // Aim Smoothing
+        aimTarget.position = Vector3.Lerp(
+            aimTarget.position,
+            world,
+            20f * Time.deltaTime
+        );
     }
 
     void UpdateFollowTarget() // Camera Offset Calculation Relative to Movement Input

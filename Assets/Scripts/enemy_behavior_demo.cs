@@ -25,7 +25,7 @@ public class enemy_behavior_demo : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             Destroy(other.gameObject);
-
+            Debug.Log("Bullet Successfully Hit Target");
             Destroy(gameObject);
         }
     }

@@ -7,12 +7,17 @@ using UnityEngine.InputSystem;
 public class player_controls : MonoBehaviour
 {
     private Rigidbody2D _playerAvatar; // RB2D
-
     private Vector2 moveInput; // Movement
-
     private Animator anim; // Animator
 
     [SerializeField] private float moveSpeed = 10f;
+    
+    [Header("Limb Limit Controller")]
+    [SerializeField] private Transform limbTarget;
+    [SerializeField] private float flipThreshold = 100f;
+    
+    private bool facingRight = true;
+    private bool isAiming;
 
     private void Awake()
     {
@@ -24,21 +29,57 @@ public class player_controls : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
-        Debug.Log(moveInput); // Input Check
+        //Debug.Log(moveInput); // Input Check
 
     }
 
-    private void Update() // Asset Flip
+    public void OnAim(InputAction.CallbackContext context)
     {
-        if (moveInput.x > 0)
+        if (context.performed)
+            isAiming = true;
+        else if (context.canceled)
+            isAiming = false;
+    }
+
+    private void Update()
+    {
+        if (isAiming)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            // Limb Limit Flipper
+            float angle = limbTarget.localEulerAngles.z;
+            if (angle > 180) angle -= 360;
+
+            if (facingRight && angle > flipThreshold)
+            {
+                Flip();
+            }
+            else if (!facingRight && angle < -flipThreshold)
+            {
+                Flip();
+            }
+                
         }
-        else if (moveInput.x < 0)
+        else
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            // Movement Based Flipper
+            if (moveInput.x > 0 && !facingRight)
+            {
+                Flip();
+            } 
+            else if (moveInput.x < 0 && facingRight)
+            {
+                Flip();
+            }
+                
         }
-            
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     private void FixedUpdate()

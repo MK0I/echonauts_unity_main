@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class weapon_handler : MonoBehaviour
 {
-    [Header("Handler")]
+    [Header("Setup")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform muzzleCoord;
 
@@ -32,7 +32,14 @@ public class weapon_handler : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.linearVelocity = muzzleCoord.right * bulletSpeed;
+            Vector2 dir = muzzleCoord.right;
+
+            if (transform.root.localScale.x < 0)
+            {
+                dir = -dir;
+            }
+
+            rb.linearVelocity = dir * bulletSpeed;
         }
 
         Destroy(bullet, 3f);
