@@ -169,5 +169,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c0285a2bc92454caf08d92a1100305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemy_behavior_demo
-  launchSpeed: 25
-  lifetime: 4
+  launchSpeed: 20
+  lifetime: 5

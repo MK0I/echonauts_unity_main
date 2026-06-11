@@ -1000,7 +1000,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.34901962, g: 0.4156863, b: 0.17254902, a: 1}
@@ -1549,8 +1549,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::weapon_handler
   bulletPrefab: {fileID: 3143356730647572651, guid: 7737758bd40cdae4090b52c6a29c47bb, type: 3}
   muzzleCoord: {fileID: 1092997001}
+  mouseRef: {fileID: 891899153}
   bulletSpeed: 50
-  fireRate: 0.2
+  fireRate: 0.1
 --- !u!1 &717273363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +1618,7 @@ GameObject:
   - component: {fileID: 718623762}
   - component: {fileID: 718623767}
   - component: {fileID: 718623768}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: player_parent
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3386,7 +3387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1462281274}
   - component: {fileID: 1462281275}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: hand_slot
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -3555,8 +3556,8 @@ Transform:
   m_GameObject: {fileID: 1507498659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0212, y: -4.981, z: 0}
-  m_LocalScale: {x: 59.81784, y: 1.97, z: 1}
+  m_LocalPosition: {x: 0.0212, y: -8.8376, z: 0}
+  m_LocalScale: {x: 59.81784, y: 9.52732, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4345,6 +4346,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: weapon_1
       objectReference: {fileID: 0}
+    - target: {fileID: 162673413798883184, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 722813545369945892, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4614
+      objectReference: {fileID: 0}
+    - target: {fileID: 722813545369945892, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5667
+      objectReference: {fileID: 0}
     - target: {fileID: 791460902825988875, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.425
@@ -4385,9 +4398,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1421871672955357900, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2098853167934944841, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
       propertyPath: m_SortingOrder
       value: 95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3776007328830222096, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7056831891194660256, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7056831891194660256, guid: 2190328a4ac953140a8707d323ed594d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
