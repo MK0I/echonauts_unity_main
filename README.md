@@ -1,2 +1,2 @@
-# project_pilgrim
+# Echonauts
 ApplPhys 2D Side-Scroller Shooter Game
