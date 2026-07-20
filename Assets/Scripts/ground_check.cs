@@ -11,22 +11,20 @@ public class Ground_Check : MonoBehaviour
 
     public void CheckGround(Transform checkPoint)
     {
-        Collider2D hit = Physics2D.OverlapCircle(checkPoint.position, radius, groundLayer);
+        Collider2D hit = Physics2D.OverlapCircle(
+            checkPoint.position,
+            radius,
+            groundLayer);
 
         GroundCollider = hit;
         IsGrounded = hit != null;
-
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-
         Gizmos.DrawWireSphere(transform.position, radius);
-
     }
-
 #endif
-
 }

@@ -5,10 +5,10 @@ public class Direction_Control : MonoBehaviour, IInit, ITick
 {
     Context context;
 
-    [SerializeField]
-    Transform graphics;
+    [SerializeField] Transform graphics;
 
     bool facingRight = true;
+    public bool FacingRight => facingRight;
 
     public void Initialize(Context ctx)
     {
