@@ -4,7 +4,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class Player_Input : MonoBehaviour, IInit
 {
-    public Input_State State;
+    public Input_State State { get; private set; }
 
     private Player_Input_Actions controls;
 
