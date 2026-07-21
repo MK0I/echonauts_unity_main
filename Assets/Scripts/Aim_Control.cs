@@ -17,7 +17,7 @@ public class Aim_Control : MonoBehaviour, IInit, ITick
         this.context = context;
     }
 
-    public void Tick(Context context)
+    public void Tick()
     {
         Input_State input = this.context.InputState;
 

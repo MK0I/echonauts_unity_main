@@ -34,7 +34,7 @@ public class Camera_Anchor : MonoBehaviour, IInit, ITick
         */
     }
 
-    public void Tick(Context context)
+    public void Tick()
     {
         TargetPosition = CalculateTargetPosition();
         TargetZoom = CalculateZoom();
@@ -79,6 +79,6 @@ public class Camera_Anchor : MonoBehaviour, IInit, ITick
 
     private float CalculateZoom()
     {
-        return context.InputState.Fired ? aimZoom : defaultZoom;
+        return context.InputState.Fire ? aimZoom : defaultZoom;
     }
 }

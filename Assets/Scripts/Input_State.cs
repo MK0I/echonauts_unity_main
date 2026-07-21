@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public struct Input_State
+public class Input_State
 {
     public Vector2 Move;
 
-    public Vector2 MouseScreen;
-
     public Vector2 MouseWorld;
 
-    public bool Jumped;
+    public bool Jump;
 
-    public bool Fired;
+    public bool Fire;
 
-    public bool Reloaded;
+    public bool AimHeld;
 
-    public bool Sprinted;
+    public bool Reload;
 
-    public bool Interacted;
+    public bool Sprint;
+
+    public bool Interact;
 }

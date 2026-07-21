@@ -15,7 +15,7 @@ public class Direction_Control : MonoBehaviour, IInit, ITick
         context = ctx;
     }
 
-    public void Tick(Context context)
+    public void Tick()
     {
         Input_State input = context.InputState;
 

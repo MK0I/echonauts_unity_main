@@ -17,6 +17,8 @@ public class Movement_Control : MonoBehaviour, IInit, IFixedTick
         context = ctx;
 
         rb = context.Rigidbody;
+
+        // Debug.Log($"Movement initialized. rb = {rb}");
     }
 
     public void SetMoveInput(Vector2 input)

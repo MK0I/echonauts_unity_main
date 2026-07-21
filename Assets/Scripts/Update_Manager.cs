@@ -19,44 +19,39 @@ public class Update_Manager : MonoBehaviour
     {
         context = GetComponent<Context>();
 
+        context.Build();      // <-- Build Context first
+
         MonoBehaviour[] behaviours = GetComponents<MonoBehaviour>();
 
         foreach (MonoBehaviour behaviour in behaviours)
         {
             if (behaviour is IInit init)
-            {
                 initializeSystems.Add(init);
-            }
-                
+
             if (behaviour is ITick tick)
-            {
                 tickSystems.Add(tick);
-            }
 
             if (behaviour is ILateTick late)
-            {
                 lateSystems.Add(late);
-            }
 
             if (behaviour is IFixedTick fixedTick)
-            {
                 fixedSystems.Add(fixedTick);
-            }
-
         }
 
         foreach (IInit system in initializeSystems)
         {
             system.Initialize(context);
         }
-            
+
+        Debug.Log("Initialization complete.");
+
     }
 
     void Update()
     {
         foreach (ITick system in tickSystems)
         {
-            system.Tick(context);
+            system.Tick();
         }
     }
 

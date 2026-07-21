@@ -15,7 +15,7 @@ public class Ground_Control : MonoBehaviour, IInit, ITick
         this.context = context;
     }
 
-    public void Tick(Context context)
+    public void Tick()
     {
         context.Ground_Check.CheckGround(context.GroundCheckPoint);
 

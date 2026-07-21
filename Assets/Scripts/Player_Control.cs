@@ -10,18 +10,16 @@ public class Player_Control : MonoBehaviour, IInit, ITick
         context = ctx;
     }
 
-    public void Tick(Context context)
+    public void Tick()
     {
         Input_State input = context.InputState;
 
-        context.GetComponent<Movement_Control>().SetMoveInput(input.Move);
+        context.Movement_Control.SetMoveInput(input.Move);
 
         Animation_State animation = context.Animation_State;
 
         animation.MoveSpeed = Mathf.Abs(context.Rigidbody.linearVelocity.x);
-
         animation.VerticalVelocity = context.Rigidbody.linearVelocity.y;
-
         animation.Grounded = context.Ground_Control.IsGrounded;
 
         if (context.Ground_Control.Landed)
@@ -29,5 +27,8 @@ public class Player_Control : MonoBehaviour, IInit, ITick
             animation.Landed = true;
         }
             
+        // Debug.Log(context.Animation_State);
+
     }
+
 }
