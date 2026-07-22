@@ -1,64 +1,57 @@
 using UnityEngine;
 
-public class IK_Control : MonoBehaviour, IInit, ILateTick
+public sealed class IK_Control : MonoBehaviour, IInit, ILateTick
 {
     private Context context;
 
-    [Header("Head")]
-    [SerializeField] private float headDistance = 0.4f;
-    [SerializeField] private float headVerticalOffset = 0.15f;
+    [Header("Aim Offset")]
+    [SerializeField] private float forwardOffset = 0.18f;
+    [SerializeField] private float upwardOffset = 0.12f;
 
-    [Header("Hands")]
-    [SerializeField] private Vector2 rightHandOffset;
-    [SerializeField] private Vector2 leftHandOffset;
+    [SerializeField] private float supportHandWeight = 0.8f;
 
-    public void Initialize(Context context)
+    public void Initialize(Context ctx)
     {
-        this.context = context;
+        context = ctx;
     }
 
     public void LateTick()
     {
-        // UpdateWeaponPivot();
-        UpdateHeadTarget();
-        // UpdateRightHand();
-        // UpdateLeftHand();
+        UpdateHands();
     }
 
-    /*
-    private void UpdateWeaponPivot()
+    private void UpdateHands()
     {
-        Vector2 aim = context.Aim_Control.AimDirection;
+        if (!context.Aim_Control.IsAiming)
+        {
+            context.RightHandTarget.SetPositionAndRotation(
+                context.GripTarget.position,
+                context.GripTarget.rotation);
 
-        float angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg;
+            context.LeftHandTarget.SetPositionAndRotation(
+                context.SupportTarget.position,
+                context.SupportTarget.rotation);
 
-        context.WeaponPivot.rotation = Quaternion.Euler(0f, 0f, angle);
+            return;
+        }
+
+        Vector2 aim = context.Aim_Control.AimDirection.normalized;
+
+        float weaponLength =
+            Vector2.Distance(
+                context.GripTarget.position,
+                context.SupportTarget.position);
+
+        Vector2 shoulderLift =
+            aim * (weaponLength * 0.08f);
+
+        context.RightHandTarget.SetPositionAndRotation(
+            context.GripTarget.position + (Vector3)shoulderLift,
+            context.GripTarget.rotation);
+
+        context.LeftHandTarget.SetPositionAndRotation(
+            context.SupportTarget.position + (Vector3)(shoulderLift * 0.75f),
+            context.SupportTarget.rotation);
     }
-    */
 
-    private void UpdateHeadTarget()
-    {
-        Vector2 target = (Vector2)context.Skeleton.position + context.Aim_Control.AimDirection * headDistance;
-
-        target.y += headVerticalOffset;
-
-        context.HeadTarget.position = target;
-
-    }
-
-    /*
-    private void UpdateRightHand()
-    {
-        context.RightHandTarget.position = context.WeaponSocket.position + (Vector3)rightHandOffset;
-
-    }
-    */
-
-    /*
-    private void UpdateLeftHand()
-    {
-        context.LeftHandTarget.position = context.WeaponSocket.position + (Vector3)leftHandOffset;
-
-    }
-    */
 }

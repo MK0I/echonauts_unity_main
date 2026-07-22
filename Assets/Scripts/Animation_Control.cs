@@ -1,52 +1,33 @@
 using UnityEngine;
 
-public class Animation_Control : MonoBehaviour
+public sealed class Animation_Control : MonoBehaviour, IInit, ITick, ILateTick
 {
     private Context context;
     private Animator animator;
     private Animation_State state;
 
-    public void Initialize(Context context)
+    public void Initialize(Context ctx)
     {
-        this.context = context;
+        context = ctx;
 
         animator = context.Animator;
         state = context.Animation_State;
     }
 
-    public void Tick(Context context)
+    public void Tick()
     {
-        UpdateState(context);
-        UpdateAnimator();
-    }
-
-    public void LateTick()
-    {
-        Animation_State state = context.Animation_State;
-
-        animator.SetFloat(AnimatorHashes.MoveSpeed, state.MoveSpeed);
-
-        animator.SetFloat(AnimatorHashes.VerticalVelocity, state.VerticalVelocity);
-
-        animator.SetBool(AnimatorHashes.Grounded, state.Grounded);
-
-        if (state.Landed)
-        {
-            animator.SetTrigger(AnimatorHashes.Landed);
-
-            state.Landed = false;
-        }
-    }
-
-    private void UpdateState(Context context)
-    {
-        state.MoveSpeed = Mathf.Abs(context.Rigidbody.linearVelocity.x);
+        state.MoveSpeed = Mathf.Abs(context.InputState.Move.x) * 10f;
 
         state.VerticalVelocity = context.Rigidbody.linearVelocity.y;
 
         state.Grounded = context.Ground_Control.IsGrounded;
 
         state.Moving = state.MoveSpeed > 0.05f;
+
+        if (context.Ground_Control.Landed)
+        {
+            state.Landed = true;
+        }
 
         state.Jumping =
             !state.Grounded &&
@@ -61,9 +42,11 @@ public class Animation_Control : MonoBehaviour
         state.AimAngle = context.Aim_Control.AimAngle;
     }
 
-    private void UpdateAnimator()
+    public void LateTick()
     {
-        animator.SetFloat(AnimatorHashes.MoveSpeed, state.MoveSpeed);
+        animator.SetFloat(
+            AnimatorHashes.MoveSpeed,
+            state.MoveSpeed);
 
         animator.SetFloat(
             AnimatorHashes.VerticalVelocity,
@@ -73,10 +56,18 @@ public class Animation_Control : MonoBehaviour
             AnimatorHashes.Grounded,
             state.Grounded);
 
-        //animator.SetBool(AnimatorHashes.Moving, state.Moving);
-
         animator.SetFloat(
             AnimatorHashes.AimAngle,
             state.AimAngle);
+
+        if (state.Landed)
+        {
+            animator.SetTrigger(
+                AnimatorHashes.Landed);
+
+            state.Landed = false;
+        }
+
     }
+
 }

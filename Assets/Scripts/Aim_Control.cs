@@ -1,48 +1,37 @@
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 public class Aim_Control : MonoBehaviour, IInit, ITick
 {
     private Context context;
 
-    [Header("Presentation")]
-    [SerializeField] private float headDistance = 0.4f;
-    [SerializeField] private bool rotateHead = true;
-
     public Vector2 AimDirection { get; private set; }
     public float AimAngle { get; private set; }
-    
-    public void Initialize(Context context)
+    public Vector2 AimWorldPosition { get; private set; }
+    public bool IsAiming { get; private set; }
+
+    public void Initialize(Context ctx)
     {
-        this.context = context;
+        context = ctx;
     }
 
     public void Tick()
     {
-        Input_State input = this.context.InputState;
+        IsAiming = context.InputState.AimHeld;
 
-        AimDirection = (input.MouseWorld - (Vector2)this.context.transform.position).normalized;
-
-        AimAngle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-
-        UpdateWeaponPivot();
-
-        UpdateHeadTarget();
-    }
-
-    private void UpdateWeaponPivot()
-    {
-        context.WeaponPivot.localRotation =
-            Quaternion.Euler(0f, 0f, AimAngle);
-    }
-
-    private void UpdateHeadTarget()
-    {
-        if (!rotateHead)
+        if (!IsAiming)
             return;
 
-        context.HeadTarget.localRotation =
-            Quaternion.Euler(0f, 0f, AimAngle);
+        AimWorldPosition = context.InputState.MouseWorld;
+
+        Vector2 origin = context.RightHandTarget.position;
+
+        AimDirection = (AimWorldPosition - origin).normalized;
+
+        AimAngle = Mathf.Atan2(
+            AimDirection.y,
+            AimDirection.x
+        ) * Mathf.Rad2Deg;
+
     }
 
 }

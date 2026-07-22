@@ -17,6 +17,7 @@ public class Context : MonoBehaviour
     public Movement_Control Movement_Control { get; private set; }
     public Direction_Control Direction_Control { get; private set; }
     public Aim_Control Aim_Control { get; private set; }
+    public Weapon_Control Weapon_Control { get; private set; }
 
 
     // Ground Check
@@ -31,17 +32,16 @@ public class Context : MonoBehaviour
     public Camera_Anchor Camera_Anchor { get; private set; }
 
     [SerializeField] private Transform cameraTarget;
-
     public Transform CameraTarget => cameraTarget;
 
-    
+
     // Animation
     public Animator Animator { get; private set; }
 
     public Animation_State Animation_State { get; private set; }
     public Animation_Control Animation_Control { get; private set; }
     public IK_Control IK_Control { get; private set; }
-
+    public Pose_Control Pose_Control { get; private set; }
 
     // Ground Reference
     [SerializeField] private Transform groundCheckPoint;
@@ -62,11 +62,20 @@ public class Context : MonoBehaviour
     [SerializeField] private Transform leftHandTarget;
     [SerializeField] private Transform rightHandTarget;
 
+    [SerializeField] private Transform rightShoulder;
+
+    [SerializeField] private Transform upperArmNear;
+    [SerializeField] private Transform upperArmFar;
+
     [SerializeField] private Transform muzzle;
     [SerializeField] private Transform ejection;
 
+    public Transform GripTarget;
+    public Transform SupportTarget;
+
     public Transform VisualRoot => visualRoot;
     public Transform Skeleton => skeleton;
+    public Transform player_root { get; private set; }
 
     public Transform WeaponPivot => weaponPivot;
     public Transform WeaponSocket => weaponSocket;
@@ -75,6 +84,11 @@ public class Context : MonoBehaviour
 
     public Transform LeftHandTarget => leftHandTarget;
     public Transform RightHandTarget => rightHandTarget;
+
+    public Transform RightShoulder => rightShoulder;
+
+    public Transform UpperArmNear => upperArmNear;
+    public Transform UpperArmFar => upperArmFar;
 
     public Transform Muzzle => muzzle;
     public Transform Ejection => ejection;
@@ -90,14 +104,18 @@ public class Context : MonoBehaviour
         PlayerInput = GetComponent<Player_Input>();
         Controller = GetComponent<Player_Control>();
 
+        player_root = transform;
+
         Movement_Control = GetComponent<Movement_Control>();
         Direction_Control = GetComponent<Direction_Control>();
         Aim_Control = GetComponent<Aim_Control>();
+        Weapon_Control = GetComponent<Weapon_Control>();
 
         Camera_Anchor = GetComponent<Camera_Anchor>();
 
         Animation_State = GetComponent<Animation_State>();
         Animation_Control = GetComponent<Animation_Control>();
+        Pose_Control = GetComponent<Pose_Control>();
         IK_Control = GetComponent<IK_Control>();
 
         Animator = GetComponentInChildren<Animator>();
@@ -117,9 +135,11 @@ public class Context : MonoBehaviour
         Check(Movement_Control, nameof(Movement_Control));
         Check(Direction_Control, nameof(Direction_Control));
         Check(Aim_Control, nameof(Aim_Control));
+        Check(Weapon_Control, nameof(Weapon_Control));
 
         Check(Animation_State, nameof(Animation_State));
         Check(Animation_Control, nameof(Animation_Control));
+        Check(Pose_Control, nameof(Pose_Control));
         Check(IK_Control, nameof(IK_Control));
 
         Check(ground_Control, nameof(ground_Control));
