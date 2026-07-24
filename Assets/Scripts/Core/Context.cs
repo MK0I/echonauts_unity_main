@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class Context : MonoBehaviour
 {
@@ -40,8 +41,10 @@ public class Context : MonoBehaviour
 
     public Animation_State Animation_State { get; private set; }
     public Animation_Control Animation_Control { get; private set; }
-    public IK_Control IK_Control { get; private set; }
     public Pose_Control Pose_Control { get; private set; }
+    public Pose_State Pose_State { get; private set; }
+    public Skeleton_Map Skeleton { get; private set; }
+    public FK_Control FK_Control { get; private set; }
 
     // Ground Reference
     [SerializeField] private Transform groundCheckPoint;
@@ -59,36 +62,20 @@ public class Context : MonoBehaviour
 
     [SerializeField] private Transform headTarget;
 
-    [SerializeField] private Transform leftHandTarget;
-    [SerializeField] private Transform rightHandTarget;
-
-    [SerializeField] private Transform rightShoulder;
-
-    [SerializeField] private Transform upperArmNear;
-    [SerializeField] private Transform upperArmFar;
-
     [SerializeField] private Transform muzzle;
     [SerializeField] private Transform ejection;
 
-    public Transform GripTarget;
-    public Transform SupportTarget;
 
+    // Public Accessors
     public Transform VisualRoot => visualRoot;
-    public Transform Skeleton => skeleton;
     public Transform player_root { get; private set; }
+
+    public Aim_Pose Aim_Pose { get; private set; }
 
     public Transform WeaponPivot => weaponPivot;
     public Transform WeaponSocket => weaponSocket;
 
     public Transform HeadTarget => headTarget;
-
-    public Transform LeftHandTarget => leftHandTarget;
-    public Transform RightHandTarget => rightHandTarget;
-
-    public Transform RightShoulder => rightShoulder;
-
-    public Transform UpperArmNear => upperArmNear;
-    public Transform UpperArmFar => upperArmFar;
 
     public Transform Muzzle => muzzle;
     public Transform Ejection => ejection;
@@ -113,12 +100,21 @@ public class Context : MonoBehaviour
 
         Camera_Anchor = GetComponent<Camera_Anchor>();
 
+        Skeleton = skeleton.GetComponent<Skeleton_Map>();
+
         Animation_State = GetComponent<Animation_State>();
         Animation_Control = GetComponent<Animation_Control>();
+
         Pose_Control = GetComponent<Pose_Control>();
-        IK_Control = GetComponent<IK_Control>();
+        Pose_State = GetComponent<Pose_State>();
+
+        Aim_Pose = GetComponent<Aim_Pose>();
 
         Animator = GetComponentInChildren<Animator>();
+
+        FK_Control = GetComponent<FK_Control>();
+
+        
 
         Validate();
     }
@@ -126,47 +122,61 @@ public class Context : MonoBehaviour
     // Validation
     private void Validate()
     {
+        // Physics
         Check(Rigidbody, nameof(Rigidbody));
         Check(CapsuleCollider, nameof(CapsuleCollider));
 
+        // Input
         Check(PlayerInput, nameof(PlayerInput));
         Check(Controller, nameof(Controller));
 
+        // Controllers
         Check(Movement_Control, nameof(Movement_Control));
         Check(Direction_Control, nameof(Direction_Control));
         Check(Aim_Control, nameof(Aim_Control));
         Check(Weapon_Control, nameof(Weapon_Control));
 
-        Check(Animation_State, nameof(Animation_State));
-        Check(Animation_Control, nameof(Animation_Control));
-        Check(Pose_Control, nameof(Pose_Control));
-        Check(IK_Control, nameof(IK_Control));
-
+        // Ground Check
         Check(ground_Control, nameof(ground_Control));
         Check(ground_Check, nameof(ground_Check));
-
-        Check(cameraTarget, nameof(cameraTarget));
         Check(groundCheckPoint, nameof(groundCheckPoint));
 
+        // Visuals
         Check(visualRoot, nameof(visualRoot));
-        Check(skeleton, nameof(skeleton));
 
+        // Animation
+        Check(Animation_State, nameof(Animation_State));
+        Check(Animation_Control, nameof(Animation_Control));
+
+        // Pose
+        Check(Pose_Control, nameof(Pose_Control));
+        Check(Pose_State, nameof(Pose_State));
+
+        Check(Aim_Pose, nameof(Aim_Pose));
+
+        Check(Skeleton, nameof(Skeleton));
+
+        Check(FK_Control, nameof(FK_Control));
+
+        // Camera
+        Check(cameraTarget, nameof(cameraTarget));
+        
+        // Weapon
         Check(weaponPivot, nameof(weaponPivot));
         Check(weaponSocket, nameof(weaponSocket));
 
         Check(headTarget, nameof(headTarget));
 
-        Check(leftHandTarget, nameof(leftHandTarget));
-        Check(rightHandTarget, nameof(rightHandTarget));
-
         Check(muzzle, nameof(muzzle));
         Check(ejection, nameof(ejection));
+
     }
 
     // Checker
     private void Check(Object obj, string name)
     {
         if (obj == null)
-            Debug.LogError($"Context Missing Reference: {name}", this);
+            Debug.LogError($"Context is Missing Reference: {name}", this);
+
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Aim_Control : MonoBehaviour, IInit, ITick
+public sealed class Aim_Control : MonoBehaviour, IInit, ITick
 {
     private Context context;
 
@@ -23,15 +23,24 @@ public class Aim_Control : MonoBehaviour, IInit, ITick
 
         AimWorldPosition = context.InputState.MouseWorld;
 
-        Vector2 origin = context.RightHandTarget.position;
+        // Stable gameplay origin
+        Vector2 origin = context.WeaponPivot.position;
 
         AimDirection = (AimWorldPosition - origin).normalized;
 
         AimAngle = Mathf.Atan2(
             AimDirection.y,
-            AimDirection.x
-        ) * Mathf.Rad2Deg;
+            AimDirection.x) * Mathf.Rad2Deg;
+
+        Debug.DrawLine(
+    origin,
+    AimWorldPosition,
+    Color.red);
+
+        Debug.DrawRay(
+    origin,
+    AimDirection * 2f,
+    Color.green);
 
     }
-
 }

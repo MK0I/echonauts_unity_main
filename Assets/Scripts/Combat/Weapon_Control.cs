@@ -2,27 +2,27 @@ using UnityEngine;
 
 public sealed class Weapon_Control : MonoBehaviour, IInit, ILateTick
 {
-    private Context _context;
-    private double _lastFireTime;
+    private Context context;
+    private double lastFireTime;
 
     [SerializeField] private float fireCooldown = 0.25f;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 12f;
 
-    public void Initialize(Context context)
+    public void Initialize(Context ctx)
     {
-        _context = context;
+        context = ctx;
     }
 
     public void LateTick()
     {
-        if (_context.Aim_Control.IsAiming)
+        if (context.Aim_Control.IsAiming)
         {
             UpdatePivot();
         }
 
-        if (_context.InputState.Fire &&
-            Time.timeAsDouble >= _lastFireTime + fireCooldown)
+        if (context.InputState.Fire &&
+            Time.timeAsDouble >= lastFireTime + fireCooldown)
         {
             Fire();
         }
@@ -30,37 +30,39 @@ public sealed class Weapon_Control : MonoBehaviour, IInit, ILateTick
 
     private void UpdatePivot()
     {
-        float angle = _context.Aim_Control.AimAngle;
+        float angle = context.Aim_Control.AimAngle;
 
-        if (_context.Direction_Control.FacingRight)
+        if (context.Direction_Control.FacingRight)
         {
-            _context.WeaponPivot.localRotation =
+            context.WeaponPivot.localRotation =
                 Quaternion.Euler(0f, 0f, angle);
         }
         else
         {
-            _context.WeaponPivot.localRotation =
+            context.WeaponPivot.localRotation =
                 Quaternion.Euler(0f, 0f, 180f - angle);
         }
+
+        Debug.Log($"Aim Angle: {angle:F1}");
     }
 
     private void Fire()
     {
-        _lastFireTime = Time.timeAsDouble;
+        lastFireTime = Time.timeAsDouble;
 
-        float angle = _context.Aim_Control.AimAngle;
+        float angle = context.Aim_Control.AimAngle;
 
         Quaternion rotation = Quaternion.Euler(0f, 0f, angle);
 
         GameObject bullet = Instantiate(
             projectilePrefab,
-            _context.Muzzle.position,
+            context.Muzzle.position,
             rotation);
 
         if (bullet.TryGetComponent(out Rigidbody2D rb))
         {
             rb.linearVelocity =
-                _context.Aim_Control.AimDirection * projectileSpeed;
+                context.Aim_Control.AimDirection * projectileSpeed;
         }
     }
 }

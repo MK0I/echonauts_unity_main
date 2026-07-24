@@ -19,7 +19,7 @@ public class Update_Manager : MonoBehaviour
     {
         context = GetComponent<Context>();
 
-        context.Build();      // <-- Build Context first
+        context.Build(); // Builds Context and its components
 
         MonoBehaviour[] behaviours = GetComponents<MonoBehaviour>();
 
