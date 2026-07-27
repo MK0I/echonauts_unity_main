@@ -23,8 +23,7 @@ public sealed class Aim_Control : MonoBehaviour, IInit, ITick
 
         AimWorldPosition = context.InputState.MouseWorld;
 
-        // Stable gameplay origin
-        Vector2 origin = context.WeaponPivot.position;
+        Vector2 origin = context.Muzzle.position;
 
         AimDirection = (AimWorldPosition - origin).normalized;
 

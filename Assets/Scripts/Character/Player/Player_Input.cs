@@ -24,20 +24,14 @@ public class Player_Input : MonoBehaviour, IInit
 
     private void OnEnable()
     {
-        //Debug.Log($"controls == null: {controls == null}");
-
         if (controls == null) // Lazy Initialization
         {
             controls = new Player_Input_Actions();
-            // Debug.Log("Recreated controls.");
         }
 
-        // Debug.Log("About to Enable()");
         controls.Enable();
-        // Debug.Log("Enable() finished");
 
         controls.Player.Jump.performed += OnJump;
-        // Debug.Log("Subscribed Jump");
 
         controls.Player.Fire.performed += OnFirePerformed;
         controls.Player.Fire.canceled += OnFireStopped;
@@ -51,10 +45,6 @@ public class Player_Input : MonoBehaviour, IInit
         controls.Player.Sprint.canceled += OnSprintStopped;
 
         controls.Player.Interact.performed += OnInteract;
-
-        // Debug.Log("Finished OnEnable()");
-
-        // All Debug.Log is to bugfix initialization order error
     }
 
     private void OnDisable()
@@ -95,6 +85,11 @@ public class Player_Input : MonoBehaviour, IInit
 
     private void LateUpdate()
     {
+        if (State == null)
+        {
+            return;
+        }
+
         State.Jump = false;
 
         State.Reload = false;
@@ -104,46 +99,46 @@ public class Player_Input : MonoBehaviour, IInit
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        State.Jump = true;
+        if (State != null) State.Jump = true;
     }
 
     private void OnFirePerformed(InputAction.CallbackContext context)
     {
-        State.Fire = true;
+        if (State != null) State.Fire = true;
     }
 
     private void OnFireStopped(InputAction.CallbackContext context)
     {
-        State.Fire = false;
+        if (State != null) State.Fire = false;
     }
 
     private void OnAimStarted(InputAction.CallbackContext context)
     {
-        State.AimHeld = true;
+        if (State != null) State.AimHeld = true;
     }
 
     private void OnAimStopped(InputAction.CallbackContext context)
     {
-        State.AimHeld = false;
+        if (State != null) State.AimHeld = false;
     }
 
     private void OnReload(InputAction.CallbackContext context)
     {
-        State.Reload = true;
+        if (State != null) State.Reload = true;
     }
 
     private void OnSprintPerformed(InputAction.CallbackContext context)
     {
-        State.Sprint = true;
+        if (State != null) State.Sprint = true;
     }
 
     private void OnSprintStopped(InputAction.CallbackContext context)
     {
-        State.Sprint = false;
+        if (State != null) State.Sprint = false;
     }
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        State.Interact = true;
+        if (State != null) State.Interact = true;
     }
 }

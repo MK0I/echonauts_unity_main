@@ -2,6 +2,8 @@ using UnityEngine;
 
 public sealed class Weapon_Control : MonoBehaviour, IInit, ILateTick
 {
+    public int Order => 500;
+
     private Context context;
     private double lastFireTime;
 
@@ -16,53 +18,49 @@ public sealed class Weapon_Control : MonoBehaviour, IInit, ILateTick
 
     public void LateTick()
     {
-        if (context.Aim_Control.IsAiming)
-        {
-            UpdatePivot();
-        }
-
         if (context.InputState.Fire &&
             Time.timeAsDouble >= lastFireTime + fireCooldown)
         {
             Fire();
         }
+
     }
 
-    private void UpdatePivot()
-    {
-        float angle = context.Aim_Control.AimAngle;
+    //private void UpdatePivot()
+    //{
+    //    float angle = context.Aim_Control.AimAngle;
 
-        if (context.Direction_Control.FacingRight)
-        {
-            context.WeaponPivot.localRotation =
-                Quaternion.Euler(0f, 0f, angle);
-        }
-        else
-        {
-            context.WeaponPivot.localRotation =
-                Quaternion.Euler(0f, 0f, 180f - angle);
-        }
+    //    if (context.Direction_Control.FacingRight)
+    //    {
+    //        context.WeaponPivot.localRotation =
+    //            Quaternion.Euler(0f, 0f, angle);
+    //    }
+    //    else
+    //    {
+    //        context.WeaponPivot.localRotation =
+    //            Quaternion.Euler(0f, 0f, 180f - angle);
+    //    }
 
-        Debug.Log($"Aim Angle: {angle:F1}");
-    }
+    //    Debug.Log($"Aim Angle: {angle:F1}");
+    //}
 
     private void Fire()
     {
         lastFireTime = Time.timeAsDouble;
 
-        float angle = context.Aim_Control.AimAngle;
-
-        Quaternion rotation = Quaternion.Euler(0f, 0f, angle);
-
-        GameObject bullet = Instantiate(
+        GameObject projectile = Instantiate(
             projectilePrefab,
             context.Muzzle.position,
-            rotation);
+            Quaternion.identity);
 
-        if (bullet.TryGetComponent(out Rigidbody2D rb))
+        if (projectile.TryGetComponent(out Projectile bullet))
         {
-            rb.linearVelocity =
-                context.Aim_Control.AimDirection * projectileSpeed;
+            bullet.Initialize(
+                context.Aim_Control.AimDirection,
+                projectileSpeed);
+
         }
+
     }
+
 }

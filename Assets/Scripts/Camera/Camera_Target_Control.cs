@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Camera_Target_Control : MonoBehaviour, IInit, ILateTick
 {
+    public int Order => 500;
+
     [Header("Camera")]
     [SerializeField] private float aimOffset = 2.5f;
     [SerializeField] private float followSpeed = 10f;

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public sealed class Animation_Control : MonoBehaviour, IInit, ITick, ILateTick
 {
+    public int Order => 0;
+
     private Context context;
     private Animator animator;
     private Animation_State state;
@@ -16,7 +18,7 @@ public sealed class Animation_Control : MonoBehaviour, IInit, ITick, ILateTick
 
     public void Tick()
     {
-        state.MoveSpeed = Mathf.Abs(context.InputState.Move.x) * 10f;
+        state.MoveSpeed = Mathf.Abs(context.InputState.Move.x);
 
         state.VerticalVelocity = context.Rigidbody.linearVelocity.y;
 
@@ -53,6 +55,10 @@ public sealed class Animation_Control : MonoBehaviour, IInit, ITick, ILateTick
             state.VerticalVelocity);
 
         animator.SetBool(
+            AnimatorHashes.Moving,
+            state.Moving);
+
+        animator.SetBool(
             AnimatorHashes.Grounded,
             state.Grounded);
 
@@ -67,7 +73,5 @@ public sealed class Animation_Control : MonoBehaviour, IInit, ITick, ILateTick
 
             state.Landed = false;
         }
-
     }
-
 }

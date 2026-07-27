@@ -41,10 +41,13 @@ public class Context : MonoBehaviour
 
     public Animation_State Animation_State { get; private set; }
     public Animation_Control Animation_Control { get; private set; }
+    public Animated_Pose_Cache Animated_Pose_Cache { get; private set; }
     public Pose_Control Pose_Control { get; private set; }
     public Pose_State Pose_State { get; private set; }
     public Skeleton_Map Skeleton { get; private set; }
     public FK_Control FK_Control { get; private set; }
+
+    public Jump_Control Jump_Control { get; private set; }
 
     // Ground Reference
     [SerializeField] private Transform groundCheckPoint;
@@ -74,6 +77,7 @@ public class Context : MonoBehaviour
 
     public Transform WeaponPivot => weaponPivot;
     public Transform WeaponSocket => weaponSocket;
+    public Weapon_Graphics Weapon_Graphics { get; private set; }
 
     public Transform HeadTarget => headTarget;
 
@@ -101,20 +105,23 @@ public class Context : MonoBehaviour
         Camera_Anchor = GetComponent<Camera_Anchor>();
 
         Skeleton = skeleton.GetComponent<Skeleton_Map>();
-
+        
+        Animator = GetComponentInChildren<Animator>();
         Animation_State = GetComponent<Animation_State>();
         Animation_Control = GetComponent<Animation_Control>();
+
+        Animated_Pose_Cache = GetComponent<Animated_Pose_Cache>();
 
         Pose_Control = GetComponent<Pose_Control>();
         Pose_State = GetComponent<Pose_State>();
 
-        Aim_Pose = GetComponent<Aim_Pose>();
-
-        Animator = GetComponentInChildren<Animator>();
+        //Aim_Pose = GetComponent<Aim_Pose>();
 
         FK_Control = GetComponent<FK_Control>();
 
-        
+        Jump_Control = GetComponent<Jump_Control>();
+
+        Weapon_Graphics = GetComponent<Weapon_Graphics>();
 
         Validate();
     }
@@ -147,12 +154,13 @@ public class Context : MonoBehaviour
         // Animation
         Check(Animation_State, nameof(Animation_State));
         Check(Animation_Control, nameof(Animation_Control));
+        Check(Animated_Pose_Cache, nameof(Animated_Pose_Cache));
 
         // Pose
         Check(Pose_Control, nameof(Pose_Control));
         Check(Pose_State, nameof(Pose_State));
 
-        Check(Aim_Pose, nameof(Aim_Pose));
+        //Check(Aim_Pose, nameof(Aim_Pose));
 
         Check(Skeleton, nameof(Skeleton));
 
@@ -169,6 +177,10 @@ public class Context : MonoBehaviour
 
         Check(muzzle, nameof(muzzle));
         Check(ejection, nameof(ejection));
+
+        Check(Jump_Control, nameof(Jump_Control));
+
+        //Check(Weapon_Graphics, nameof(Weapon_Graphics));
 
     }
 

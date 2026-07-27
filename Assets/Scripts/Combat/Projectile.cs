@@ -1,14 +1,24 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public sealed class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed = 12f;
     [SerializeField] private float lifetime = 2f;
 
-    private void Awake() => Destroy(gameObject, lifetime);
+    private Rigidbody2D rb;
 
-    private void FixedUpdate()
+    private void Awake()
     {
-        transform.position += transform.right * speed * Time.fixedDeltaTime;
+        rb = GetComponent<Rigidbody2D>();
+
+        Destroy(gameObject, lifetime);
+    }
+
+    public void Initialize(Vector2 direction, float speed)
+    {
+        rb.linearVelocity = direction * speed;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 }

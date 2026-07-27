@@ -8,7 +8,7 @@ public static class AnimatorHashes
 
     public static readonly int Grounded = Animator.StringToHash("Grounded");
 
-    //public static readonly int Moving = Animator.StringToHash("Moving");
+    public static readonly int Moving = Animator.StringToHash("Moving");
 
     public static readonly int AimAngle = Animator.StringToHash("AimAngle");
 

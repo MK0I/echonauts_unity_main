@@ -6,22 +6,19 @@ public sealed class Idle_Pose : MonoBehaviour, IInit, IPoseModifier
 
     private Context context;
 
-    [Header("Body")]
+    [SerializeField] private float lowerSpineRotation;
+    [SerializeField] private float upperSpineRotation;
 
-    [SerializeField] private float spineRotation = 0f;
-    [SerializeField] private float neckRotation = 0f;
+    [SerializeField] private float nearUpperArmRotation;
+    [SerializeField] private float nearLowerArmRotation;
+    [SerializeField] private float nearHandRotation;
 
-    [Header("Near Arm")]
+    [SerializeField] private float farUpperArmRotation;
+    [SerializeField] private float farLowerArmRotation;
+    [SerializeField] private float farHandRotation;
 
-    [SerializeField] private float upperArmNearRotation = 0f;
-    [SerializeField] private float lowerArmNearRotation = 0f;
-    [SerializeField] private float handNearRotation = 0f;
-
-    [Header("Far Arm")]
-
-    [SerializeField] private float upperArmFarRotation = 0f;
-    [SerializeField] private float lowerArmFarRotation = 0f;
-    [SerializeField] private float handFarRotation = 0f;
+    [SerializeField] private float headRotation;
+    [SerializeField] private float neckRotation;
 
     public void Initialize(Context ctx)
     {
@@ -30,15 +27,19 @@ public sealed class Idle_Pose : MonoBehaviour, IInit, IPoseModifier
 
     public void Apply(Pose_State pose)
     {
-        pose.SpineRotation += spineRotation;
+        pose.LowerSpineRotation += lowerSpineRotation;
+        pose.UpperSpineRotation += upperSpineRotation;
+
         pose.NeckRotation += neckRotation;
+        pose.HeadRotation += headRotation;
 
-        pose.UpperArmNearRotation += upperArmNearRotation;
-        pose.LowerArmNearRotation += lowerArmNearRotation;
-        pose.HandNearRotation += handNearRotation;
+        pose.NearUpperArmRotation += nearUpperArmRotation;
+        pose.NearLowerArmRotation += nearLowerArmRotation;
+        pose.NearHandRotation += nearHandRotation;
 
-        pose.UpperArmFarRotation += upperArmFarRotation;
-        pose.LowerArmFarRotation += lowerArmFarRotation;
-        pose.HandFarRotation += handFarRotation;
+        pose.FarUpperArmRotation += farUpperArmRotation;
+        pose.FarLowerArmRotation += farLowerArmRotation;
+        pose.FarHandRotation += farHandRotation;
+
     }
 }

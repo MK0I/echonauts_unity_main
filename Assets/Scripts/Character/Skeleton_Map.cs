@@ -3,58 +3,96 @@ using UnityEngine;
 public sealed class Skeleton_Map : MonoBehaviour
 {
     [Header("Core")]
-    [SerializeField] private Transform hip;
-    [SerializeField] private Transform spine;
+    [SerializeField] private Transform hipRoot;
+    [SerializeField] private Transform hip2;
+
+    [SerializeField] private Transform lowerSpine;
+    [SerializeField] private Transform upperSpine;
+
     [SerializeField] private Transform neck;
     [SerializeField] private Transform head;
 
-    [Header("Arms")]
-    [SerializeField] private Transform upperArmNear;
-    [SerializeField] private Transform lowerArmNear;
-    [SerializeField] private Transform handNear;
+    [Header("Near Arm")]
+    [SerializeField] private Transform nearUpperArm;
+    [SerializeField] private Transform nearLowerArm;
+    [SerializeField] private Transform nearHand;
 
-    [SerializeField] private Transform upperArmFar;
-    [SerializeField] private Transform lowerArmFar;
-    [SerializeField] private Transform handFar;
+    [Header("Far Arm")]
+    [SerializeField] private Transform farUpperArm;
+    [SerializeField] private Transform farLowerArm;
+    [SerializeField] private Transform farHand;
 
-    [Header("Rotations")]
-    public Quaternion HipRestRotation { get; private set; }
-    public Quaternion SpineRestRotation { get; private set; }
-    public Quaternion NeckRestRotation { get; private set; }
+    [Header("Near Leg")]
+    [SerializeField] private Transform nearThigh;
+    [SerializeField] private Transform nearLeg;
+    [SerializeField] private Transform nearFoot;
+    [SerializeField] private Transform nearToes;
 
-    public Quaternion UpperArmNearRestRotation { get; private set; }
-    public Quaternion LowerArmNearRestRotation { get; private set; }
-    public Quaternion HandNearRestRotation { get; private set; }
+    [Header("Far Leg")]
+    [SerializeField] private Transform farThigh;
+    [SerializeField] private Transform farLeg;
+    [SerializeField] private Transform farFoot;
+    [SerializeField] private Transform farToes;
 
-    public Quaternion UpperArmFarRestRotation { get; private set; }
-    public Quaternion LowerArmFarRestRotation { get; private set; }
-    public Quaternion HandFarRestRotation { get; private set; }
+    #region Animated Rotations
 
-    public Transform Hip => hip;
-    public Transform Spine => spine;
+    public Quaternion HipRootAnimatedRotation { get; set; }
+    public Quaternion Hip2AnimatedRotation { get; set; }
+
+    public Quaternion LowerSpineAnimatedRotation { get; set; }
+    public Quaternion UpperSpineAnimatedRotation { get; set; }
+
+    public Quaternion NeckAnimatedRotation { get; set; }
+    public Quaternion HeadAnimatedRotation { get; set; }
+
+    public Quaternion NearUpperArmAnimatedRotation { get; set; }
+    public Quaternion NearLowerArmAnimatedRotation { get; set; }
+    public Quaternion NearHandAnimatedRotation { get; set; }
+
+    public Quaternion FarUpperArmAnimatedRotation { get; set; }
+    public Quaternion FarLowerArmAnimatedRotation { get; set; }
+    public Quaternion FarHandAnimatedRotation { get; set; }
+
+    public Quaternion NearThighAnimatedRotation { get; set; }
+    public Quaternion NearLegAnimatedRotation { get; set; }
+    public Quaternion NearFootAnimatedRotation { get; set; }
+    public Quaternion NearToesAnimatedRotation { get; set; }
+
+    public Quaternion FarThighAnimatedRotation { get; set; }
+    public Quaternion FarLegAnimatedRotation { get; set; }
+    public Quaternion FarFootAnimatedRotation { get; set; }
+    public Quaternion FarToesAnimatedRotation { get; set; }
+
+    #endregion
+
+    #region Bone Accessors
+
+    public Transform HipRoot => hipRoot;
+    public Transform Hip2 => hip2;
+
+    public Transform LowerSpine => lowerSpine;
+    public Transform UpperSpine => upperSpine;
+
     public Transform Neck => neck;
     public Transform Head => head;
 
-    public Transform UpperArmNear => upperArmNear;
-    public Transform LowerArmNear => lowerArmNear;
-    public Transform HandNear => handNear;
+    public Transform NearUpperArm => nearUpperArm;
+    public Transform NearLowerArm => nearLowerArm;
+    public Transform NearHand => nearHand;
 
-    public Transform UpperArmFar => upperArmFar;
-    public Transform LowerArmFar => lowerArmFar;
-    public Transform HandFar => handFar;
+    public Transform FarUpperArm => farUpperArm;
+    public Transform FarLowerArm => farLowerArm;
+    public Transform FarHand => farHand;
 
-    private void Awake()
-    {
-        HipRestRotation = hip.localRotation;
-        SpineRestRotation = spine.localRotation;
-        NeckRestRotation = neck.localRotation;
+    public Transform NearThigh => nearThigh;
+    public Transform NearLeg => nearLeg;
+    public Transform NearFoot => nearFoot;
+    public Transform NearToes => nearToes;
 
-        UpperArmNearRestRotation = upperArmNear.localRotation;
-        LowerArmNearRestRotation = lowerArmNear.localRotation;
-        HandNearRestRotation = handNear.localRotation;
+    public Transform FarThigh => farThigh;
+    public Transform FarLeg => farLeg;
+    public Transform FarFoot => farFoot;
+    public Transform FarToes => farToes;
 
-        UpperArmFarRestRotation = upperArmFar.localRotation;
-        LowerArmFarRestRotation = lowerArmFar.localRotation;
-        HandFarRestRotation = handFar.localRotation;
-    }
+    #endregion
 }

@@ -3,45 +3,28 @@ using UnityEngine;
 
 public sealed class Pose_Control : MonoBehaviour, IInit, ILateTick
 {
+    public int Order => 100; // After Capture : Before FK_Control
+
     private Pose_State poseState;
+    private List<IPoseModifier> modifiers;
 
-    private readonly List<IPoseModifier> poseModifiers = new();
+    public Pose_State State => poseState;
 
-    public void Initialize(Context context)
+    public void Initialize(Context ctx)
     {
-        poseState = context.Pose_State;
+        poseState = ctx.Pose_State;
 
-        foreach (MonoBehaviour behaviour in GetComponents<MonoBehaviour>())
-        {
-            if (behaviour is IPoseModifier modifier)
-                poseModifiers.Add(modifier);
-        }
-
-        poseModifiers.Sort((a, b) => a.Order.CompareTo(b.Order));
-
+        modifiers = new List<IPoseModifier>(GetComponentsInChildren<IPoseModifier>());
+        modifiers.Sort((a, b) => a.Order.CompareTo(b.Order));
     }
 
     public void LateTick()
     {
-        ResetPose();
+        poseState.Clear();
 
-        foreach (IPoseModifier modifier in poseModifiers)
+        for (int i = 0; i < modifiers.Count; i++)
         {
-            modifier.Apply(poseState);
+            modifiers[i].Apply(poseState);
         }
-    }
-
-    private void ResetPose()
-    {
-        poseState.SpineRotation = 0f;
-        poseState.NeckRotation = 0f;
-
-        poseState.UpperArmNearRotation = 0f;
-        poseState.LowerArmNearRotation = 0f;
-        poseState.HandNearRotation = 0f;
-
-        poseState.UpperArmFarRotation = 0f;
-        poseState.LowerArmFarRotation = 0f;
-        poseState.HandFarRotation = 0f;
     }
 }
